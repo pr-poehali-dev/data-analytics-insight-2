@@ -1,5 +1,32 @@
 import { useReveal } from "@/hooks/use-reveal"
 
+const services = [
+  {
+    title: "Групповые курсы",
+    description: "Уровни A1–C1 · 8 занятий/мес · от 6 000 ₽/мес",
+    price: "от 6 000 ₽",
+    direction: "top",
+  },
+  {
+    title: "Индивидуально",
+    description: "60 мин с преподавателем · гибкий график · очно и онлайн",
+    price: "900–1 200 ₽/ч",
+    direction: "right",
+  },
+  {
+    title: "Подготовка к HSK",
+    description: "HSK 1–6 · мини-группы · 2–3 мес до экзамена",
+    price: "от 8 000 ₽/мес",
+    direction: "left",
+  },
+  {
+    title: "Поступление в вузы Китая",
+    description: "Базовый — подбор вузов и стипендий · Полный — документы, собес, резюме",
+    price: "15 000 – 35 000 ₽",
+    direction: "bottom",
+  },
+]
+
 export function ServicesSection() {
   const { ref, isVisible } = useReveal(0.3)
 
@@ -17,34 +44,20 @@ export function ServicesSection() {
           <h2 className="mb-2 font-sans text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
             Услуги
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Наши компетенции</p>
+          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Курсы и программы UniChina</p>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 md:gap-x-16 md:gap-y-12 lg:gap-x-24">
-          {[
-            {
-              title: "Веб-разработка",
-              description: "Создание современных веб-приложений любой сложности",
-              direction: "top",
-            },
-            {
-              title: "UI/UX Дизайн",
-              description: "Проектирование удобных и красивых интерфейсов",
-              direction: "right",
-            },
-            {
-              title: "Мобильные приложения",
-              description: "Кроссплатформенная разработка для iOS и Android",
-              direction: "left",
-            },
-            {
-              title: "Консалтинг",
-              description: "Техническая экспертиза и стратегическое планирование",
-              direction: "bottom",
-            },
-          ].map((service, i) => (
+          {services.map((service, i) => (
             <ServiceCard key={i} service={service} index={i} isVisible={isVisible} />
           ))}
+        </div>
+
+        <div
+          className={`mt-10 font-mono text-xs text-foreground/50 transition-all duration-700 ${isVisible ? "opacity-100" : "opacity-0"}`}
+          style={{ transitionDelay: "700ms" }}
+        >
+          + Разговорный клуб · Скидки студентам и корпоративным группам
         </div>
       </div>
     </section>
@@ -56,7 +69,7 @@ function ServiceCard({
   index,
   isVisible,
 }: {
-  service: { title: string; description: string; direction: string }
+  service: { title: string; description: string; price: string; direction: string }
   index: number
   isVisible: boolean
 }) {
@@ -81,16 +94,20 @@ function ServiceCard({
   return (
     <div
       className={`group transition-all duration-700 ${getRevealClass()}`}
-      style={{
-        transitionDelay: `${index * 150}ms`,
-      }}
+      style={{ transitionDelay: `${index * 150}ms` }}
     >
       <div className="mb-3 flex items-center gap-3">
         <div className="h-px w-8 bg-foreground/30 transition-all duration-300 group-hover:w-12 group-hover:bg-foreground/50" />
         <span className="font-mono text-xs text-foreground/60">0{index + 1}</span>
       </div>
-      <h3 className="mb-2 font-sans text-2xl font-light text-foreground md:text-3xl">{service.title}</h3>
-      <p className="max-w-sm text-sm leading-relaxed text-foreground/80 md:text-base">{service.description}</p>
+      <h3 className="mb-1 font-sans text-2xl font-light text-foreground md:text-3xl">{service.title}</h3>
+      <p className="mb-2 max-w-sm text-sm leading-relaxed text-foreground/80 md:text-base">{service.description}</p>
+      <span
+        className="font-mono text-sm font-semibold"
+        style={{ color: "hsl(43 90% 50%)" }}
+      >
+        {service.price}
+      </span>
     </div>
   )
 }
